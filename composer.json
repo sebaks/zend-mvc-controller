@@ -1,0 +1,22 @@
+{
+  "name": "sebaks/zend-mvc-controller",
+  "type": "library",
+  "authors": [
+    {
+      "name": "sebaks",
+      "email": "d.kirillof@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "zendframework/zend-mvc": "^2.6",
+    "zendframework/zend-view": "^2.6",
+    "zendframework/zend-http": "^2.5",
+    "sebaks/controller": "^0.0.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sebaks\\ZendMvcController\\": "src/"
+    }
+  }
+}
