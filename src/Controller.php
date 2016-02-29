@@ -55,8 +55,9 @@ class Controller extends AbstractController
         ViewModelInterface $viewModel,
         SebaksController $controller,
         ErrorInterface $error,
-        array $options = [])
-    {
+        array $options = []
+    ) {
+
         $this->sebaksRequest = $sebaksRequest;
         $this->sebaksResponse = $sebaksResponse;
         $this->viewModel = $viewModel;
@@ -72,8 +73,7 @@ class Controller extends AbstractController
     public function onDispatch(MvcEvent $e)
     {
         if (!empty($this->options['allowedMethods'])
-            &&  !in_array($this->sebaksRequest->getMethod(), $this->options['allowedMethods']))
-        {
+            &&  !in_array($this->sebaksRequest->getMethod(), $this->options['allowedMethods'])) {
             return $this->error->methodNotAllowed($e, $this->viewModel);
         }
 
