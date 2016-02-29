@@ -3,8 +3,8 @@
 namespace Sebaks\ZendMvcControllerTest;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Sebaks\ZendMvcController\ApiError;
 use Sebaks\ZendMvcController\ApiErrorFactory;
+use Sebaks\ZendMvcController\ApiError;
 
 class ApiErrorFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,8 +21,8 @@ class ApiErrorFactoryTest extends \PHPUnit_Framework_TestCase
 
         $factory = new ApiErrorFactory();
 
-        $controller = $factory->createService($serviceLocator->reveal());
+        $service = $factory->createService($serviceLocator->reveal());
 
-        $this->assertInstanceOf(ApiError::class, $controller);
+        $this->assertInstanceOf(ApiError::class, $service);
     }
 }
