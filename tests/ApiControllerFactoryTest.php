@@ -12,7 +12,7 @@ use Sebaks\ZendMvcController\Controller;
 use Sebaks\ZendMvcController\ApiControllerFactory;
 use Sebaks\ZendMvcController\ErrorInterface;
 
-class RunnerControllerFactoryTest extends \PHPUnit_Framework_TestCase
+class ApiControllerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateService()
     {
