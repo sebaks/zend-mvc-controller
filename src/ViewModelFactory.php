@@ -22,15 +22,15 @@ class ViewModelFactory implements FactoryInterface
             }
         } else {
             $viewModel = new ViewModel();
+        }
 
+        if (!$viewModel->getTemplate()) {
             $template = $routeMatch->getParam('template');
             if ($template) {
                 if (!is_string($template)) {
                     throw new \RuntimeException('Parameter template must be string');
                 }
                 $viewModel->setTemplate($template);
-            } else {
-                throw new \RuntimeException('Missing required parameter template');
             }
         }
 
