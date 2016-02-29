@@ -3,9 +3,10 @@
 namespace Sebaks\ZendMvcControllerTest;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Sebaks\ZendMvcController\ApiViewModelFactory;
+use Sebaks\ZendMvcController\ChangesValidatorFactory;
+use Sebaks\Controller\ValidatorInterface;
 
-class ApiViewModelFactoryTest extends \PHPUnit_Framework_TestCase
+class ChangesValidatorFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateService()
     {
@@ -13,7 +14,7 @@ class ApiViewModelFactoryTest extends \PHPUnit_Framework_TestCase
         $app = $this->prophesize('\Zend\Mvc\Application');
         $event = $this->prophesize('Zend\Mvc\MvcEvent');
         $routeMatch = $this->prophesize('\Zend\Mvc\Router\Http\RouteMatch');
-        $viewModel = $this->prophesize('Zend\View\Model\JsonModel');
+        $changesValidator = $this->prophesize(ValidatorInterface::class);
 
         $serviceLocator->get('Application')->willReturn($app->reveal());
 
@@ -21,13 +22,13 @@ class ApiViewModelFactoryTest extends \PHPUnit_Framework_TestCase
 
         $app->getMvcEvent()->willReturn($event->reveal());
 
-        $routeMatch->getParam('viewModel')->willReturn('Some\ViewModel');
-        $serviceLocator->get('Some\ViewModel')->willReturn($viewModel->reveal());
+        $routeMatch->getParam('changesValidator')->willReturn('Some\ChangesValidator');
+        $serviceLocator->get('Some\ChangesValidator')->willReturn($changesValidator->reveal());
 
-        $factory = new ApiViewModelFactory();
+        $factory = new ChangesValidatorFactory();
 
         $service = $factory->createService($serviceLocator->reveal());
 
-        $this->assertEquals($viewModel->reveal(), $service);
+        $this->assertEquals($changesValidator->reveal(), $service);
     }
 }

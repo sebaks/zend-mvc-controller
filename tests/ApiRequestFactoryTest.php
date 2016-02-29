@@ -35,6 +35,6 @@ class ApiRequestFactoryTest extends \PHPUnit_Framework_TestCase
 
         $service = $factory->createService($serviceLocator->reveal());
 
-        $this->assertInstanceOf(RequestInterface::class, $service);
+        $this->assertEquals($request->reveal(), $service);
     }
 }
