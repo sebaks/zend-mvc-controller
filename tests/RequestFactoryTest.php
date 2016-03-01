@@ -53,7 +53,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
         $app->getMvcEvent()->willReturn($event->reveal());
 
         $routeMatch->getParam('request')->willReturn(null);
-        $routeMatch->getParams()->willReturn([]);
+        $routeMatch->getParams()->willReturn([
+            'id' => '1',
+            'routeCriteria' => 'id',
+        ]);
 
         $parameters = $this->prophesize('\Zend\Stdlib\ParametersInterface');
         $parameters->toArray()->willReturn([]);
@@ -68,5 +71,6 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
         $service = $factory->createService($serviceLocator->reveal());
 
         $this->assertInstanceOf(RequestInterface::class, $service);
+        $this->assertEquals(['id' => '1'], $service->getCriteria());
     }
 }

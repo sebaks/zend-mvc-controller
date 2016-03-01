@@ -29,16 +29,21 @@ class RequestFactory implements FactoryInterface
             $request = new Request();
 
             $routeMatchParams = $routeMatch->getParams();
-            unset($routeMatchParams['controller']);
-            unset($routeMatchParams['allowedMethods']);
-            unset($routeMatchParams['criteriaValidator']);
-            unset($routeMatchParams['changesValidator']);
-            unset($routeMatchParams['service']);
-            unset($routeMatchParams['template']);
-            unset($routeMatchParams['viewModel']);
-            unset($routeMatchParams['redirectTo']);
+            $routeMatchCriteria = [];
+            if (!empty($routeMatchParams['routeCriteria'])) {
+                if (is_string($routeMatchParams['routeCriteria'])) {
+                    $routeMatchCriteria[$routeMatchParams['routeCriteria']] = $routeMatchParams[$routeMatchParams['routeCriteria']];
+                }
+                if (is_array($routeMatchParams['routeCriteria'])) {
+                    foreach ($routeMatchParams['routeCriteria'] as $criteria) {
+                        if (array_key_exists($criteria, $routeMatchParams)) {
+                            $routeMatchCriteria[$criteria] = $routeMatchParams[$criteria];
+                        }
+                    }
+                }
+            }
 
-            $criteria = array_merge($routeMatchParams, $zendRequest->getQuery()->toArray());
+            $criteria = array_merge($routeMatchCriteria, $zendRequest->getQuery()->toArray());
             $request->setCriteria($criteria);
 
             $changes = array_merge($zendRequest->getPost()->toArray(), $zendRequest->getFiles()->toArray());
