@@ -4,7 +4,7 @@ namespace Sebaks\ZendMvcControllerTest;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Sebaks\ZendMvcController\ServiceFactory;
-use Sebaks\Controller\ServiceInterface;
+use T4webDomainInterface\ServiceInterface;
 
 class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
 {

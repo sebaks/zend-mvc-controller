@@ -5,12 +5,12 @@ namespace Sebaks\ZendMvcControllerTest;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Mvc\Controller\ControllerManager;
 use Sebaks\Controller\ValidatorInterface;
-use Sebaks\Controller\ServiceInterface;
 use Sebaks\Controller\RequestInterface;
 use Sebaks\Controller\ResponseInterface;
 use Sebaks\ZendMvcController\Controller;
 use Sebaks\ZendMvcController\ControllerFactory;
 use Sebaks\ZendMvcController\ErrorInterface;
+use T4webDomainInterface\ServiceInterface;
 
 class ControllerFactoryTest extends \PHPUnit_Framework_TestCase
 {

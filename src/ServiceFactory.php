@@ -4,8 +4,8 @@ namespace Sebaks\ZendMvcController;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Sebaks\Controller\ServiceInterface;
 use Sebaks\Controller\EmptyService;
+use T4webDomainInterface\ServiceInterface;
 
 class ServiceFactory implements FactoryInterface
 {
