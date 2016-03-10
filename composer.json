@@ -9,9 +9,10 @@
   ],
   "require": {
     "php": ">=5.5",
-    "zendframework/zend-mvc": "~2.5.0",
     "zendframework/zend-view": "~2.5.0",
     "zendframework/zend-http": "~2.5.0",
+    "zendframework/zend-mvc": "~2.5.0",
+    "zendframework/zend-modulemanager": "~2.5.0",
     "sebaks/controller": "dev-master"
   },
   "require-dev" : {
