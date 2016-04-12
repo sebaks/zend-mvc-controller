@@ -51,6 +51,6 @@ class HtmlErrorTest extends \PHPUnit_Framework_TestCase
 
         $this->event->getResponse()->willReturn($zendResponse->reveal());
 
-        $this->error->notFoundByRequestedCriteria();
+        $this->error->notFoundByRequestedCriteria([]);
     }
 }

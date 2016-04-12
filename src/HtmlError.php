@@ -45,7 +45,7 @@ class HtmlError implements ErrorInterface
     /**
      * @return mixed
      */
-    public function notFoundByRequestedCriteria()
+    public function notFoundByRequestedCriteria($criteriaErrors)
     {
         $zendResponse = $this->mvcEvent->getResponse();
         $zendResponse->setStatusCode(404);
@@ -56,4 +56,9 @@ class HtmlError implements ErrorInterface
 
         return $this->viewModel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function changesErrors($changesErrors) {}
 }

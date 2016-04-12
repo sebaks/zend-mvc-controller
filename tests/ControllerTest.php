@@ -56,10 +56,8 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $data = ['key' => 'value'];
         $errorData = ['errorKey' => 'errorValue'];
         $this->response->getCriteriaErrors()->willReturn($errorData);
-        $this->error->notFoundByRequestedCriteria(
-            $this->event->reveal(),
-            $this->viewModel->reveal()
-        )->willReturn($this->viewModel->reveal());
+        $this->error->notFoundByRequestedCriteria($errorData)
+            ->willReturn($this->viewModel->reveal());
 
         $this->response->getChangesErrors()->willReturn([]);
         $this->response->toArray()->willReturn($data);

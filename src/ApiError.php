@@ -33,11 +33,16 @@ class ApiError implements ErrorInterface
     /**
      * @return mixed
      */
-    public function notFoundByRequestedCriteria()
+    public function notFoundByRequestedCriteria($criteriaErrors)
     {
         $zendResponse = $this->mvcEvent->getResponse();
         $zendResponse->setStatusCode(404);
 
         return $zendResponse;
     }
+
+    /**
+     * @return mixed
+     */
+    public function changesErrors($changesErrors) {}
 }

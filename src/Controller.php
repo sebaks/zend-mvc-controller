@@ -5,6 +5,7 @@ namespace Sebaks\ZendMvcController;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractController;
 use Zend\View\Model\ModelInterface as ViewModelInterface;
+use Zend\Http\Response;
 use Sebaks\Controller\Controller as SebaksController;
 use Sebaks\Controller\RequestInterface;
 use Sebaks\Controller\ResponseInterface;
@@ -74,19 +75,26 @@ class Controller extends AbstractController
     {
         if (!empty($this->options['allowedMethods'])
             &&  !in_array($this->sebaksRequest->getMethod(), $this->options['allowedMethods'])) {
-            return $this->error->methodNotAllowed($e, $this->viewModel);
+            return $this->error->methodNotAllowed();
         }
 
         $this->controller->dispatch($this->sebaksRequest, $this->sebaksResponse);
 
         $criteriaErrors = $this->sebaksResponse->getCriteriaErrors();
         if (!empty($criteriaErrors)) {
-            return $this->error->notFoundByRequestedCriteria($e, $this->viewModel);
+            return $this->error->notFoundByRequestedCriteria($criteriaErrors);
         }
 
         $changesErrors = $this->sebaksResponse->getChangesErrors();
         if (empty($changesErrors) && !empty($this->options['redirectTo'])) {
             return $this->redirect()->toRoute($this->options['redirectTo']);
+        }
+
+        if (!empty($changesErrors)) {
+            $result =  $this->error->changesErrors($changesErrors);
+            if ($result instanceof Response) {
+                return $result;
+            }
         }
 
         $this->viewModel->setVariables($this->sebaksResponse->toArray());
