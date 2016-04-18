@@ -42,6 +42,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $data = ['key' => 'value'];
         $this->response->getCriteriaErrors()->willReturn([]);
         $this->response->getChangesErrors()->willReturn([]);
+        $this->response->getRedirectTo()->willReturn(null);
         $this->response->toArray()->willReturn($data);
         $this->viewModel->setVariables($data)->willReturn(null);
         $this->event->setResult($this->viewModel->reveal());
@@ -60,6 +61,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->viewModel->reveal());
 
         $this->response->getChangesErrors()->willReturn([]);
+        $this->response->getRedirectTo()->willReturn(null);
         $this->response->toArray()->willReturn($data);
         $this->viewModel->setVariables($data)->willReturn(null);
         $this->event->setResult($this->viewModel->reveal());
@@ -75,7 +77,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $errorData = ['errorKey' => 'errorValue'];
         $this->response->getCriteriaErrors()->willReturn([]);
         $this->response->getChangesErrors()->willReturn($errorData);
-
+        $this->response->getRedirectTo()->willReturn(null);
         $this->response->toArray()->willReturn($data);
         $this->viewModel->setVariables($data)->willReturn(null);
         $this->event->setResult($this->viewModel->reveal());

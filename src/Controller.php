@@ -86,8 +86,9 @@ class Controller extends AbstractController
         }
 
         $changesErrors = $this->sebaksResponse->getChangesErrors();
-        if (empty($changesErrors) && !empty($this->options['redirectTo'])) {
-            return $this->redirect()->toRoute($this->options['redirectTo']);
+        $redirectTo = $this->sebaksResponse->getRedirectTo();
+        if (empty($changesErrors) && !empty($redirectTo)) {
+            return $this->redirect()->toRoute($redirectTo);
         }
 
         if (!empty($changesErrors)) {
