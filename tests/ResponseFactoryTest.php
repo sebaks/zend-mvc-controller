@@ -23,6 +23,7 @@ class ResponseFactoryTest extends \PHPUnit_Framework_TestCase
         $app->getMvcEvent()->willReturn($event->reveal());
 
         $routeMatch->getParam('response')->willReturn('Some\Response');
+        $routeMatch->getParam('redirectTo')->willReturn(null);
         $serviceLocator->get('Some\Response')->willReturn($response->reveal());
 
         $factory = new ResponseFactory();
