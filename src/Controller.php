@@ -88,7 +88,17 @@ class Controller extends AbstractController
         $changesErrors = $this->sebaksResponse->getChangesErrors();
         $redirectTo = $this->sebaksResponse->getRedirectTo();
         if (empty($changesErrors) && !empty($redirectTo)) {
-            return $this->redirect()->toRoute($redirectTo);
+            if (is_array($redirectTo)) {
+                if (!isset($redirectTo['route'])) {
+                    throw new \RuntimeException('Missing required parameter route');
+                }
+                $routeParams = isset($redirectTo['params']) ? $redirectTo['params'] : [];
+                $routeOptions = isset($redirectTo['options']) ? $redirectTo['options'] : [];
+
+                return $this->redirect()->toRoute($redirectTo['route'], $routeParams, $routeOptions);
+            } else {
+                return $this->redirect()->toRoute($redirectTo);
+            }
         }
 
         if (!empty($changesErrors)) {
