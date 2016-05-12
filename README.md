@@ -5,6 +5,7 @@
 This is controller implementation for Zend MVC builds on [sebaks/controller](https://github.com/sebaks/controller).
 
 Most controllers must do
+
 1. Check if that controller\action can be accessed by called method (GET, POST, PUT etc.), if not - rise exception.
 2. Process request (this is responsibility of [sebaks/controller](https://github.com/sebaks/controller)).
   1. Validate request criteria.
@@ -58,7 +59,7 @@ You can configure that controller with route params:
 ],
 ```
 
-`criteriaValidator`, `changesValidator` - if not defined, will be created `Sebaks\Controller\EmptyValidator`
+`criteriaValidator`, `changesValidator` - if not defined, will be created `Sebaks\Controller\EmptyValidator`  
 `service` - if not defined, will be created `Sebaks\Controller\EmptyService`  
 `request` - if not defined, will be created `Sebaks\Controller\Request`  
 `response` - if not defined, will be created `Sebaks\Controller\Response`  
