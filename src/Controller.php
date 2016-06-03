@@ -78,7 +78,15 @@ class Controller extends AbstractController
             return $this->error->methodNotAllowed();
         }
 
+        $e->setParam('sebaksRequest', $this->sebaksRequest);
+        $e->setParam('sebaksResponse', $this->sebaksResponse);
+        $routeName = $e->getRouteMatch()->getMatchedRouteName();
+
+        $this->getEventManager()->trigger("dispatch.$routeName.pre", $e);
+
         $this->controller->dispatch($this->sebaksRequest, $this->sebaksResponse);
+
+        $this->getEventManager()->trigger("dispatch.$routeName.post", $e);
 
         $criteriaErrors = $this->sebaksResponse->getCriteriaErrors();
         if (!empty($criteriaErrors)) {
