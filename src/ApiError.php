@@ -37,6 +37,8 @@ class ApiError implements ErrorInterface
     {
         $zendResponse = $this->mvcEvent->getResponse();
         $zendResponse->setStatusCode(404);
+        $zendResponse->getHeaders()->addHeaderLine("Content-Type", "application/json");
+        $zendResponse->setContent(json_encode($criteriaErrors));
 
         return $zendResponse;
     }
