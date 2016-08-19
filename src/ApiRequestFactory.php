@@ -49,7 +49,7 @@ class ApiRequestFactory implements FactoryInterface
                     $changes = array_merge($zendRequest->getPost()->toArray(), $zendRequest->getFiles()->toArray());
                 } elseif ($contentType->getMediaType() == 'application/json') {
                     $changes = array_merge(
-                        (array)json_decode($zendRequest->getContent()),
+                        json_decode($zendRequest->getContent(), true),
                         $zendRequest->getFiles()->toArray()
                     );
                 }
