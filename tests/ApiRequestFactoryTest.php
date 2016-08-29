@@ -104,7 +104,7 @@ class ApiRequestFactoryTest extends \PHPUnit_Framework_TestCase
         $headers = $this->prophesize('\Zend\Stdlib\ParametersInterface');
         $headers->get('contenttype')->willReturn($contentType->reveal());
         $zendRequest->getHeaders()->willReturn($headers->reveal());
-        $zendRequest->getContent()->willReturn('{json: true}');
+        $zendRequest->getContent()->willReturn('{"json": true}');
         $zendRequest->getFiles()->willReturn($parameters->reveal());
 
         $zendRequest->getMethod()->willReturn('GET');

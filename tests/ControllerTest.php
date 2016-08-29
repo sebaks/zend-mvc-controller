@@ -7,6 +7,8 @@ use Sebaks\Controller\ResponseInterface;
 use Sebaks\Controller\Controller as SebaksController;
 use Sebaks\ZendMvcController\Controller;
 use Sebaks\ZendMvcController\ErrorInterface;
+use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Router\RouteMatch;
 
 class ControllerTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,6 +17,10 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
     private $viewModel;
     private $error;
     private $event;
+
+    /**
+     * @var Controller
+     */
     private $controller;
 
     public function setUp()
@@ -24,7 +30,8 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->viewModel = $this->prophesize('Zend\View\Model\ViewModel');
         $sebaksController = $this->prophesize(SebaksController::class);
         $this->error = $this->prophesize(ErrorInterface::class);
-        $this->event = $this->prophesize('Zend\Mvc\MvcEvent');
+        $this->event = new MvcEvent();
+        $this->event->setRouteMatch(new RouteMatch([]));
 
         $this->controller = new Controller(
             $this->request->reveal(),
@@ -45,9 +52,8 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->response->getRedirectTo()->willReturn(null);
         $this->response->toArray()->willReturn($data);
         $this->viewModel->setVariables($data)->willReturn(null);
-        $this->event->setResult($this->viewModel->reveal());
 
-        $result = $this->controller->onDispatch($this->event->reveal());
+        $result = $this->controller->onDispatch($this->event);
 
         $this->assertEquals($this->viewModel->reveal(), $result);
     }
@@ -64,9 +70,8 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->response->getRedirectTo()->willReturn(null);
         $this->response->toArray()->willReturn($data);
         $this->viewModel->setVariables($data)->willReturn(null);
-        $this->event->setResult($this->viewModel->reveal());
 
-        $result = $this->controller->onDispatch($this->event->reveal());
+        $result = $this->controller->onDispatch($this->event);
 
         $this->assertEquals($this->viewModel->reveal(), $result);
     }
@@ -80,9 +85,8 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->response->getRedirectTo()->willReturn(null);
         $this->response->toArray()->willReturn($data);
         $this->viewModel->setVariables($data)->willReturn(null);
-        $this->event->setResult($this->viewModel->reveal());
 
-        $result = $this->controller->onDispatch($this->event->reveal());
+        $result = $this->controller->onDispatch($this->event);
 
         $this->assertEquals($this->viewModel->reveal(), $result);
     }

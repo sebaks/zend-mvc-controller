@@ -3,38 +3,42 @@
 namespace Sebaks\ZendMvcControllerTest;
 
 use Sebaks\ZendMvcController\ApiError;
+use Zend\Http\Headers;
+use Zend\Http\Response;
+use Zend\Mvc\MvcEvent;
 
 class ApiErrorTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var ApiError
+     */
     private $error;
-    private $event;
 
     public function setUp()
     {
-        $this->event = $this->prophesize('Zend\Mvc\MvcEvent');
-
-        $this->error = new ApiError(
-            $this->event->reveal()
-        );
+        $response = new Response();
+        $response->setHeaders(new Headers());
+        $mvcEvent = new MvcEvent();
+        $mvcEvent->setResponse($response);
+        $this->error = new ApiError($mvcEvent);
     }
 
     public function testMethodNotAllowed()
     {
-        $zendResponse = $this->prophesize('Zend\Http\Response');
-        $zendResponse->setStatusCode(405)->willReturn(null);
+        $zendResponse = $this->error->methodNotAllowed();
 
-        $this->event->getResponse()->willReturn($zendResponse->reveal());
-
-        $this->error->methodNotAllowed();
+        $this->assertEquals(405, $zendResponse->getStatusCode());
     }
 
     public function testNotFoundByRequestedCriteria()
     {
-        $zendResponse = $this->prophesize('Zend\Http\Response');
-        $zendResponse->setStatusCode(404)->willReturn(null);
+        $content = ['some' => 'error'];
 
-        $this->event->getResponse()->willReturn($zendResponse->reveal());
+        $zendResponse = $this->error->notFoundByRequestedCriteria($content);
 
-        $this->error->notFoundByRequestedCriteria([]);
+        $this->assertEquals(404, $zendResponse->getStatusCode());
+        $this->assertEquals('Content-Type', $zendResponse->getHeaders()->get('Content-Type')->getFieldName());
+        $this->assertEquals('application/json', $zendResponse->getHeaders()->get('Content-Type')->getFieldValue());
+        $this->assertEquals(json_encode($content), $zendResponse->getContent());
     }
 }
