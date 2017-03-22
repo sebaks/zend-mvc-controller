@@ -42,16 +42,18 @@ class ApiRequestFactory implements FactoryInterface
             $request->setCriteria($criteria);
 
             $changes = [];
-            /** @var \Zend\Http\Header\ContentType $contentType */
-            $contentType = $zendRequest->getHeaders()->get('contenttype');
-            if ($contentType) {
-                if ($contentType->getMediaType() == 'multipart/form-data') {
-                    $changes = array_merge($zendRequest->getPost()->toArray(), $zendRequest->getFiles()->toArray());
-                } elseif ($contentType->getMediaType() == 'application/json') {
-                    $changes = array_merge(
-                        json_decode($zendRequest->getContent(), true),
-                        $zendRequest->getFiles()->toArray()
-                    );
+            if ($zendRequest->isPost()) {
+                /** @var \Zend\Http\Header\ContentType $contentType */
+                $contentType = $zendRequest->getHeaders()->get('contenttype');
+                if ($contentType) {
+                    if ($contentType->getMediaType() == 'multipart/form-data') {
+                        $changes = array_merge($zendRequest->getPost()->toArray(), $zendRequest->getFiles()->toArray());
+                    } elseif ($contentType->getMediaType() == 'application/json') {
+                        $changes = array_merge(
+                            json_decode($zendRequest->getContent(), true),
+                            $zendRequest->getFiles()->toArray()
+                        );
+                    }
                 }
             }
             $request->setChanges($changes);
