@@ -2,26 +2,26 @@
 
 namespace Sebaks\ZendMvcController;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 use Sebaks\Controller\RequestInterface;
 use Sebaks\Controller\Request;
 
 class RequestFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var \Zend\Mvc\Application $app */
-        $app = $serviceLocator->get('Application');
-        /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+        $app = $container->get('Application');
+        /** @var \Zend\Router\Http\RouteMatch $routeMatch */
         $routeMatch = $app->getMvcEvent()->getRouteMatch();
 
         /** @var \Zend\Http\PhpEnvironment\Request $zendRequest */
-        $zendRequest = $serviceLocator->get('request');
+        $zendRequest = $container->get('request');
 
         /** @var RequestInterface $request */
         if ($routeMatch->getParam('request')) {
-            $request = $serviceLocator->get($routeMatch->getParam('request'));
+            $request = $container->get($routeMatch->getParam('request'));
             if (! $request instanceof RequestInterface) {
                 throw new \RuntimeException('Request must be instance of ' . RequestInterface::class);
             }

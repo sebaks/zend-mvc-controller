@@ -2,16 +2,16 @@
 
 namespace Sebaks\ZendMvcController;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class OptionsFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var \Zend\Mvc\Application $app */
-        $app = $serviceLocator->get('Application');
-        /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+        $app = $container->get('Application');
+        /** @var \Zend\Router\Http\RouteMatch $routeMatch */
         $routeMatch = $app->getMvcEvent()->getRouteMatch();
 
         $options = [];

@@ -2,22 +2,22 @@
 
 namespace Sebaks\ZendMvcController;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 use Sebaks\Controller\ValidatorInterface;
 use Sebaks\Controller\EmptyValidator;
 
 class CriteriaValidatorFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var \Zend\Mvc\Application $app */
-        $app = $serviceLocator->get('Application');
-        /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+        $app = $container->get('Application');
+        /** @var \Zend\Router\Http\RouteMatch $routeMatch */
         $routeMatch = $app->getMvcEvent()->getRouteMatch();
 
         if ($routeMatch->getParam('criteriaValidator')) {
-            $criteriaValidator = $serviceLocator->get($routeMatch->getParam('criteriaValidator'));
+            $criteriaValidator = $container->get($routeMatch->getParam('criteriaValidator'));
             if (! $criteriaValidator instanceof ValidatorInterface) {
                 throw new \RuntimeException('Criteria validator must be instance of ' . ValidatorInterface::class);
             }
