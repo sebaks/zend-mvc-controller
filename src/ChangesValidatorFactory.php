@@ -2,22 +2,22 @@
 
 namespace Sebaks\ZendMvcController;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 use Sebaks\Controller\ValidatorInterface;
 use Sebaks\Controller\EmptyValidator;
 
 class ChangesValidatorFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var \Zend\Mvc\Application $app */
-        $app = $serviceLocator->get('Application');
-        /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+        $app = $container->get('Application');
+        /** @var \Zend\Router\Http\RouteMatch $routeMatch */
         $routeMatch = $app->getMvcEvent()->getRouteMatch();
 
         if ($routeMatch->getParam('changesValidator')) {
-            $changesValidator = $serviceLocator->get($routeMatch->getParam('changesValidator'));
+            $changesValidator = $container->get($routeMatch->getParam('changesValidator'));
             if (! $changesValidator instanceof ValidatorInterface) {
                 throw new \RuntimeException('Changes validator must be instance of ' . ValidatorInterface::class);
             }

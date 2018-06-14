@@ -2,15 +2,15 @@
 
 namespace Sebaks\ZendMvcController;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class ApiErrorFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var \Zend\Mvc\Application $app */
-        $app = $serviceLocator->get('Application');
+        $app = $container->get('Application');
 
         return $error = new ApiError($app->getMvcEvent());
     }
