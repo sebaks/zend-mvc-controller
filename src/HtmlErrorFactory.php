@@ -2,16 +2,16 @@
 
 namespace Sebaks\ZendMvcController;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class HtmlErrorFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var \Zend\Mvc\Application $app */
-        $app = $serviceLocator->get('Application');
-        $viewModel = $serviceLocator->get('sebaks-zend-mvc-view-model-factory');
+        $app = $container->get('Application');
+        $viewModel = $container->get('sebaks-zend-mvc-view-model-factory');
 
         return $error = new HtmlError($app->getMvcEvent(), $viewModel);
     }

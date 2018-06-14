@@ -2,22 +2,22 @@
 
 namespace Sebaks\ZendMvcController;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 use Sebaks\Controller\ResponseInterface;
 use Sebaks\Controller\Response;
 
 class ResponseFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /** @var \Zend\Mvc\Application $app */
-        $app = $serviceLocator->get('Application');
-        /** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+        $app = $container->get('Application');
+        /** @var \Zend\Router\Http\RouteMatch $routeMatch */
         $routeMatch = $app->getMvcEvent()->getRouteMatch();
 
         if ($routeMatch->getParam('response')) {
-            $response = $serviceLocator->get($routeMatch->getParam('response'));
+            $response = $container->get($routeMatch->getParam('response'));
             if (! $response instanceof ResponseInterface) {
                 throw new \RuntimeException('Response must be instance of ' . ResponseInterface::class);
             }
