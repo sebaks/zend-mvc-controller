@@ -44,7 +44,7 @@ class ApiRequestFactory implements FactoryInterface
             $changes = [];
             if ($zendRequest->isPost()) {
                 /** @var \Zend\Http\Header\ContentType $contentType */
-                $contentType = $zendRequest->getHeaders()->get('contenttype');
+                $contentType = $zendRequest->getHeaders()->get('content-type');
                 if ($contentType) {
                     if ($contentType->getMediaType() == 'multipart/form-data') {
                         $changes = array_merge($zendRequest->getPost()->toArray(), $zendRequest->getFiles()->toArray());
